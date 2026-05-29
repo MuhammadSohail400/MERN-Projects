@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import useEmployees from "../hooks/useEmployees";
+import usePageTitle from "../hooks/usePageTitle";
+import Footer from "../components/ui/Footer";
+import { useState } from "react";
+
 
 const DEPARTMENTS = [
   "All Departments",
@@ -10,14 +14,18 @@ const DEPARTMENTS = [
 ];
 
 export default function Employees() {
+  usePageTitle("Employees")
+
   const navigate = useNavigate();
   const {
-    employees, totalEmployees,
+   employees, totalEmployees,
     search, onSearch,
     deptFilter, onDept,
     statusFilter, onStatus,
     currentPage, totalPages, onPageChange,
+    deleteEmployee, toggleStatus,
   } = useEmployees();
+    const [confirmDelete, setConfirmDelete] = useState(null);
 
   return (
     <div>
@@ -100,7 +108,6 @@ export default function Employees() {
             </thead>
             <tbody>
               {employees.length === 0 ? (
-                // No results
                 <tr>
                   <td colSpan="5" style={{ textAlign: "center", padding: "40px", color: "var(--color-text-muted)" }}>
                     No employees found
@@ -132,9 +139,14 @@ export default function Employees() {
                     {/* Salary */}
                     <td style={{ fontWeight: 600 }}>{emp.salary} /yr</td>
 
-                    {/* Status */}
+                    {/* Status — click karo toggle */}
                     <td>
-                      <span className={`status-pill ${emp.status}`}>
+                      <span
+                        className={`status-pill ${emp.status}`}
+                        onClick={() => toggleStatus(emp.id)}
+                        style={{ cursor: "pointer" }}
+                        title="Click to toggle status"
+                      >
                         <span className="status-dot" />
                         {emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}
                       </span>
@@ -142,14 +154,50 @@ export default function Employees() {
 
                     {/* Actions */}
                     <td>
-                      <div style={{ display: "flex", gap: "6px" }}>
-                        <button className="btn-outline" style={{ height: "30px", padding: "0 10px", fontSize: "12px" }}>
-                          Edit
-                        </button>
-                        <button className="btn-outline" style={{ height: "30px", padding: "0 10px", fontSize: "12px" }}>
-                          View
-                        </button>
-                      </div>
+                      {confirmDelete === emp.id ? (
+                        // ── Confirm delete UI
+                        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                          <span style={{ fontSize: "12px", color: "var(--color-text-muted)" }}>
+                            Sure?
+                          </span>
+                          <button
+                            onClick={() => {
+                              deleteEmployee(emp.id);
+                              setConfirmDelete(null);
+                            }}
+                            style={{ height: "30px", padding: "0 10px", fontSize: "12px", background: "#fee2e2", color: "#b91c1c", border: "1px solid #fca5a5", borderRadius: "6px", cursor: "pointer" }}
+                          >
+                            Yes
+                          </button>
+                          <button
+                            onClick={() => setConfirmDelete(null)}
+                            className="btn-outline"
+                            style={{ height: "30px", padding: "0 10px", fontSize: "12px" }}
+                          >
+                            No
+                          </button>
+                        </div>
+                      ) : (
+                        // ── Normal actions
+                        <div style={{ display: "flex", gap: "6px" }}>
+                          {/* Edit */}
+                          <button
+                            className="btn-outline"
+                            style={{ height: "30px", padding: "0 10px", fontSize: "12px" }}
+                            onClick={() => alert(`Edit ${emp.name} — coming soon!`)}
+                          >
+                            Edit
+                          </button>
+
+                          {/* Delete */}
+                          <button
+                            onClick={() => setConfirmDelete(emp.id)}
+                            style={{ height: "30px", padding: "0 10px", fontSize: "12px", background: "#fee2e2", color: "#b91c1c", border: "1px solid #fca5a5", borderRadius: "6px", cursor: "pointer", fontFamily: "var(--font-sans)" }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -207,14 +255,7 @@ export default function Employees() {
       </div>
 
       {/* Footer */}
-      <footer className="footer">
-        <div>&copy; 2024 NexusHR. Enterprise Intelligence.</div>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <a href="#" style={{ color: "var(--color-text-secondary)", textDecoration: "none" }}>Support</a>
-          <a href="#" style={{ color: "var(--color-text-secondary)", textDecoration: "none" }}>Privacy</a>
-          <a href="#" style={{ color: "var(--color-text-secondary)", textDecoration: "none" }}>Documentation</a>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 }

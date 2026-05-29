@@ -3,7 +3,11 @@ import StatsCard from "../components/ui/StatsCard";
 import { STATS,ACTIVITIES } from "../data/dashboardData";
 import DonutChart from "../components/ui/DonutChart";
 import QuickActions from "../components/ui/QuickActions";
+import usePageTitle from "../hooks/usePageTitle";
+import Footer from "../components/ui/Footer";
+
  export default function Dashboard() {
+  usePageTitle("Dashboard")
   return (
    <>
       <div className="view active" id="view-dashboard">
@@ -57,17 +61,7 @@ import QuickActions from "../components/ui/QuickActions";
             {/*Quick Actions*/}
             <QuickActions/>
           </div>
-          <footer className="footer">
-            <div>
-              <strong>NexusHR</strong> &copy; 2024 NexusHR. Enterprise
-              Intelligence.
-            </div>
-            <a
-              href="#"
-              style={{color: 'var(--color-text-secondary)', textDecoration: 'none', fontWeight: '500'}}
-              >Support</a>
-
-          </footer>
+          <Footer/>
         </div>
 
    </>

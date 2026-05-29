@@ -1,4 +1,6 @@
-import { NavLink } from "react-router-dom";
+
+import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";  // useLocation add karo
 
 const NAV_ITEMS = [
   {
@@ -45,44 +47,104 @@ const NAV_ITEMS = [
     ),
   },
 ];
+ // useLocation add karo
 
 export default function Sidebar() {
-  return (
-    <aside className="sidebar">
-      {/* Brand */}
-      <div className="nav-brand">
-        <div className="nav-logo">NexusHR</div>
-        <div className="nav-sub">Management Portal</div>
-      </div>
+  const location = useLocation();
+    const [isOpen, setIsOpen] = useState(false);
 
-      {/* Nav items */}
-      <nav className="nav-items">
-        {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            end={item.path === "/"}
-            className={({ isActive }) =>
-              `nav-item ${isActive ? "active" : ""}`
-            }
-          >
-            {item.icon}
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
+   return (
+    <>
+      {/* ── Mobile hamburger button ── */}
+      <button
+        onClick={() => setIsOpen(true)}
+        style={{
+          display: "none",  // CSS mein mobile pe show karenge
+          position: "fixed", top: "14px", left: "16px",
+          zIndex: 50, background: "#fff",
+          border: "1px solid var(--color-border)",
+          borderRadius: "8px", width: "36px", height: "36px",
+          placeItems: "center", cursor: "pointer",
+        }}
+        className="mobile-menu-btn"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
 
-      {/* Logout */}
-      <div className="nav-bottom">
-        <button className="nav-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <polyline points="16 17 21 12 16 7" />
-            <line x1="21" y1="12" x2="9" y2="12" />
+      {/* ── Overlay — mobile mein sidebar ke peeche ── */}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          style={{
+            display: "none",
+            position: "fixed", inset: 0,
+            background: "rgba(0,0,0,0.4)",
+            zIndex: 39,
+          }}
+          className="mobile-overlay"
+        />
+      )}
+
+      {/* ── Sidebar ── */}
+      <aside className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
+        {/* Close button — mobile only */}
+        <button
+          onClick={() => setIsOpen(false)}
+          className="sidebar-close"
+          style={{
+            display: "none",
+            position: "absolute", top: "16px", right: "16px",
+            background: "none", border: "none",
+            cursor: "pointer", padding: "4px",
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
-          Logout
         </button>
-      </div>
-    </aside>
+
+        <div className="nav-brand">
+          <div className="nav-logo">NexusHR</div>
+          <div className="nav-sub">Management Portal</div>
+        </div>
+
+        <nav className="nav-items">
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end={item.path === "/"}
+              onClick={() => setIsOpen(false)}
+              className={() => {
+                const isActive =
+                  item.path === "/"
+                    ? location.pathname === "/"
+                    : location.pathname.startsWith(item.path);
+                return `nav-item ${isActive ? "active" : ""}`;
+              }}
+            >
+              {item.icon}
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="nav-bottom">
+          <button className="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Logout
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

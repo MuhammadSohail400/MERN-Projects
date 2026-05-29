@@ -1,12 +1,14 @@
 // ── Sirf imports + assembly — koi logic nahi ──
 import useEmployeeForm    from "../hooks/useEmployeeForm";
-
 import StatusSection       from "../components/form/StatusSection";
 import ProfilePreview      from "../components/form/ProfilePreview";
 import OnboardingGuide     from "../components/form/OnboardingGuide";
 import PersonalInfoSection from "../components/form/PersonalInfoSection";
+import usePageTitle from "../hooks/usePageTitle";
+import Footer from "../components/ui/Footer";
 
 export default function AddEmployee() {
+ usePageTitle("Add Employee")
   const {
     form, errors, submitted, initials,
     handleChange, handleSubmit, handleCancel,
@@ -70,9 +72,7 @@ export default function AddEmployee() {
         </div>
       </div>
 
-      <footer className="footer">
-        <div><strong>NexusHR</strong> &copy; 2024 NexusHR. Enterprise Intelligence.</div>
-      </footer>
+      <Footer/>
     </div>
   );
 }
