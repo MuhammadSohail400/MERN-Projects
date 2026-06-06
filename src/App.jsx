@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import Layout from "./components/layout/Layout"
 import Hero from "./components/sections/Hero"
 import About from "./components/sections/About"
@@ -6,18 +7,33 @@ import Projects from "./components/sections/Projects"
 import Experience from "./components/sections/Experience"
 import Stats from "./components/sections/Stats"
 import Contact from "./components/sections/Contact"
+import ScrollToTopButton from "./components/ui/ScrollToTopButton"
+import PageLoader from "./components/ui/PageLoader"
 
 const App = () => {
+    const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // 1.8s baad loader hide karo
+    const timer = setTimeout(() => setLoading(false), 1800)
+    return () => clearTimeout(timer)
+  }, [])
   return (
-    <Layout>
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-       <Stats />
-      <Experience />
-      <Contact />
-    </Layout>
+    <>
+    <PageLoader loading={loading} />
+     {!loading && (
+        <Layout>
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Stats />
+          <Experience />
+          <Contact />
+        </Layout>
+      )}
+       <ScrollToTopButton />
+  </>
   )
 }
 
