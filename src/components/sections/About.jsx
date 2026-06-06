@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { MapPin, GraduationCap, Briefcase, Rocket } from "lucide-react"
 import SectionTitle from "../ui/SectionTitle"
-// import profile from "../../assets/images/profile.jpg"
+import profile from "../../assets/images/profile.png"
 
 // ── Animation Variants ──────────────────────────────
 const fadeUp = {
@@ -67,18 +67,19 @@ const About = () => {
             <div className="absolute inset-0 rounded-2xl bg-cyan/10 blur-2xl" />
 
             {/* Image */}
-            <img
-              src="https://placehold.co/320x320"
-              alt="Muhammad Sohail"
-              className="relative z-10 w-full h-full object-cover rounded-2xl border border-white/10"
-            />
+
+          <img
+            src={profile}
+            alt="Muhammad Sohail"
+            className="relative z-10 w-full h-full object-cover rounded-2xl border border-white/10 grayscale hover:grayscale-0 transition-all duration-500"
+          />
 
           </div>
         </motion.div>
 
         {/* ── Right Side — Content ── */}
         <motion.div
-          className="flex-1 flex flex-col gap-6"
+          className="flex-1 flex flex-col gap-6 min-w-0"  // ← min-w-0 add karo
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"

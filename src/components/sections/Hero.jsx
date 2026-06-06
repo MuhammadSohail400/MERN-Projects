@@ -2,7 +2,7 @@ import { TypeAnimation } from "react-type-animation"
 import { ArrowRight, Download } from "lucide-react"
 import { motion } from "framer-motion"
 import GlowButton from "../ui/GlowButton"
-// import profile from "../../assets/images/profile.jpg"
+import profile from "../../assets/images/profile.png"
 
 // ── Animation Variants ──────────────────────────────
 const fadeUp = {
@@ -124,7 +124,7 @@ const Hero = () => {
 
             {/* Profile image */}
             <img
-              src="https://placehold.co/320x320"
+              src={profile}
               alt="Muhammad Sohail"
               className="relative z-10 w-full h-full object-cover rounded-full border-2 border-accent/50"
             />

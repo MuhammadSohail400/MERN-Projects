@@ -1,5 +1,5 @@
-import { motion } from "framer-motion"
-import { Mail, GitBranch, ExternalLink, ArrowUp } from "lucide-react"
+
+import { Mail, GitBranch, ExternalLink} from "lucide-react"
 
 // ── Data ─────────────────────────────────────────────
 const navLinks = [
@@ -14,7 +14,7 @@ const socialLinks = [
   {
     icon: GitBranch,
     label: "GitHub",
-    href: "https://github.com/YOUR_USERNAME",
+    href: "https://github.com/MuhammadSohail400",
   },
   {
     icon: ExternalLink,
@@ -24,14 +24,12 @@ const socialLinks = [
   {
     icon: Mail,
     label: "Email",
-    href: "mailto:your@email.com",
+    href: "mailto:msohailg211@gmail.com",
   },
 ]
 
 // ── Scroll to top ────────────────────────────────────
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" })
-}
+
 
 // ── Smooth scroll helper ─────────────────────────────
 const scrollTo = (id) => {
@@ -83,7 +81,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <p className="font-mono text-muted text-xs">
-          © 2025 Muhammad Sohail. Engineered with precision.
+          © 2026 Muhammad Sohail. Engineered with precision.
         </p>
 
         {/* Social Links */}
@@ -112,18 +110,7 @@ const Footer = () => {
 
       </div>
 
-      {/* Scroll to Top Button */}
-      <motion.button
-        onClick={scrollToTop}
-        className="absolute right-8 md:right-16 -top-5 p-3 bg-accent rounded-full text-white hover:bg-accent/80 transition-colors duration-200"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        <ArrowUp size={18} />
-      </motion.button>
+
 
     </footer>
   )

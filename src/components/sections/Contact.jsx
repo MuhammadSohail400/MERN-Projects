@@ -34,8 +34,8 @@ const socialLinks = [
 
 const contactInfo = [
   { icon: MapPin, text: "Karachi, Pakistan"    },
-  { icon: Mail,   text: "your@email.com"       },
-  { icon: Phone,  text: "+92 300 0000000"      },
+  { icon: Mail,   text: "msohailg211@gmail.com"       },
+  { icon: Phone,  text: "+92 3110297772"      },
 ]
 
 // ── Initial Form State ───────────────────────────────
