@@ -1,8 +1,7 @@
-import nexusHR     from "../assets/images/projects/nexusHR.png"
-import berryfood   from "../assets/images/projects/berryfood.png"
-import jobboard    from "../assets/images/projects/jobboard.png"
-import restaurentpos  from "../assets/images/projects/restaurent.png"
-
+import nexushr    from "../assets/images/projects/nexusHR.png"
+import berryfood  from "../assets/images/projects/berryfood.png"
+import jobboard   from "../assets/images/projects/jobboard.png"
+import restaurentpos from "../assets/images/projects/restaurentpos.png"
 export const projects = [
   {
     id: 1,
@@ -11,7 +10,7 @@ export const projects = [
       "Employee Management Dashboard with full CRUD operations, Context API global state, custom hooks, and atomic folder structure.",
     tags: ["React", "Tailwind", "Context API"],
     category: "frontend",
-    image: nexusHR,
+    image: nexushr,
     demo: "#",
     github: "#",
   },
