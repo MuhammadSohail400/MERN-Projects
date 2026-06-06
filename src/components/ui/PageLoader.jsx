@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion"
-
+import logo from "../../assets/images/logo.png"
 const PageLoader = ({ loading }) => {
   return (
     <AnimatePresence>
@@ -11,14 +11,14 @@ const PageLoader = ({ loading }) => {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           {/* Logo */}
-          <motion.span
-            className="font-mono text-cyan text-4xl font-bold tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            MS.
-          </motion.span>
+          <motion.img
+              src={logo}
+              alt="MS Logo"
+              className="h-16 w-auto object-contain"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0  }}
+              transition={{ duration: 0.4  }}
+            />
 
           {/* Loading bar */}
           <div className="w-48 h-0.5 bg-white/5 rounded-full overflow-hidden">

@@ -1,4 +1,4 @@
-
+import logo from "../../assets/images/logo.png"
 import { Mail, GitBranch, ExternalLink} from "lucide-react"
 
 // ── Data ─────────────────────────────────────────────
@@ -45,15 +45,17 @@ const Footer = () => {
       <div className="flex flex-col md:flex-row justify-between gap-10 pb-10 border-b border-white/5">
 
         {/* Left — Logo + Tagline */}
-        <div className="flex flex-col gap-3 max-w-xs">
-          <span className="font-mono text-cyan text-2xl font-bold tracking-tight">
-            MS.
-          </span>
-          <p className="font-dm text-muted text-sm leading-relaxed">
-            Frontend Developer based in Karachi, Pakistan.
-            Building fast, beautiful, and scalable web experiences.
-          </p>
-        </div>
+        <div className="flex flex-col gap-3 max-w-xs items-start">  {/* ← items-start add karo */}
+            <img
+              src={logo}
+              alt="MS Logo"
+              className="h-10 w-auto object-contain"
+            />
+            <p className="font-dm text-muted text-sm leading-relaxed">
+              Frontend Developer based in Karachi, Pakistan.
+              Building fast, beautiful, and scalable web experiences.
+            </p>
+          </div>
 
         {/* Right — Quick Links */}
         <div className="flex flex-col gap-3">

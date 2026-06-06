@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import useActiveSection from "../../hooks/useActiveSection"
-
+import logo from "../../assets/images/logo.png"
 // ── Nav Links Config ─────────────────────────────────
 const navLinks = [
   { label: "Projects",   href: "projects"   },
@@ -43,9 +43,11 @@ const Navbar = () => {
     >
 
       {/* Logo */}
-      <span className="font-mono text-cyan text-xl font-bold tracking-tight">
-        MS.
-      </span>
+      <img
+          src={logo}
+          alt="MS Logo"
+          className="h-10 w-auto object-contain"
+        />
 
       {/* Desktop Links */}
       <ul className="hidden md:flex items-center gap-8">
