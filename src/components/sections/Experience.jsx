@@ -20,7 +20,7 @@ const CertCard = ({ title, issuer, icon: Icon }) => {
       transition={{ duration: 0.5 }}
     >
       {/* Icon */}
-      <div className="p-3 rounded-lg bg-accent/10 text-accent flex-shrink-0">
+      <div className="p-3 rounded-lg bg-accent/10 text-accent shrink-0">
         <Icon size={20} />
       </div>
 

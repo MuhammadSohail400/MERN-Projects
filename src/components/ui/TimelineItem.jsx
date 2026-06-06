@@ -7,7 +7,7 @@ const TimelineItem = ({ year, role, company, description, isLast }) => {
       {/* ── Left — dot + line ── */}
       <div className="flex flex-col items-center">
         {/* Dot */}
-        <div className="w-3 h-3 rounded-full bg-cyan mt-1.5 flex-shrink-0" />
+        <div className="w-3 h-3 rounded-full bg-cyan mt-1.5 shrink-0" />
         {/* Line — last item mein nahi dikhegi */}
         {!isLast && (
           <div className="w-px flex-1 bg-white/10 mt-1" />

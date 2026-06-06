@@ -11,7 +11,7 @@ const StatItem = ({ value, label, duration }) => {
       className="flex flex-col items-center gap-2"
     >
       {/* Animated Number */}
-      <span className="font-syne font-extrabold text-4xl bg-gradient-to-r from-cyan to-accent bg-clip-text text-transparent">
+      <span className="font-syne font-extrabold text-4xl bg-linear-to-r from-cyan to-accent bg-clip-text text-transparent">
         {count}+
       </span>
 
