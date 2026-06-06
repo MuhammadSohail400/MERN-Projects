@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { MapPin, GraduationCap, Briefcase, Rocket } from "lucide-react"
 import SectionTitle from "../ui/SectionTitle"
-import profile from "../../assets/images/profile.png"
+import profile from "../../assets/images/Profile.png"
 
 // ── Animation Variants ──────────────────────────────
 const fadeUp = {

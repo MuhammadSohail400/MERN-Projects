@@ -2,7 +2,7 @@ import { TypeAnimation } from "react-type-animation"
 import { ArrowRight, Download } from "lucide-react"
 import { motion } from "framer-motion"
 import GlowButton from "../ui/GlowButton"
-import profile from "../../assets/images/profile.png"
+import profile from "../../assets/images/Profile.png"
 
 // ── Animation Variants ──────────────────────────────
 const fadeUp = {
