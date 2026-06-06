@@ -1,8 +1,17 @@
-// ── Level badge color helper ─────────────────────────
+import { motion } from "framer-motion"
+
+// ── Level badge colors ───────────────────────────────
 const levelColors = {
   Advanced:     "text-cyan   bg-cyan/10",
   Intermediate: "text-accent bg-accent/10",
   Beginner:     "text-muted  bg-white/5",
+}
+
+// ── Progress bar colors ──────────────────────────────
+const barColors = {
+  Advanced:     "bg-cyan",
+  Intermediate: "bg-accent",
+  Beginner:     "bg-muted",
 }
 
 // ── Component ────────────────────────────────────────
@@ -21,26 +30,31 @@ const SkillCard = ({ category, icon: Icon, items }) => {
       </div>
 
       {/* Skills List */}
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-4">
         {items.map((skill) => (
-          <li
-            key={skill.name}
-            className="flex items-center justify-between"
-          >
-            {/* Skill Name */}
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan shrink-0" />
+          <li key={skill.name} className="flex flex-col gap-1.5">
+
+            {/* Name + Badge row */}
+            <div className="flex items-center justify-between">
               <span className="font-dm text-muted text-sm">
                 {skill.name}
               </span>
+              <span className={`text-xs px-2 py-0.5 rounded-full font-mono ${levelColors[skill.level]}`}>
+                {skill.percent}%
+              </span>
             </div>
 
-            {/* Level Badge */}
-            <span
-              className={`text-xs px-2 py-0.5 rounded-full font-mono ${levelColors[skill.level]}`}
-            >
-              {skill.level}
-            </span>
+            {/* Progress Bar */}
+            <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+              <motion.div
+                className={`h-full rounded-full ${barColors[skill.level]}`}
+                initial={{ width: 0 }}
+                whileInView={{ width: `${skill.percent}%` }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
+              />
+            </div>
+
           </li>
         ))}
       </ul>
