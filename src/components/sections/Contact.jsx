@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
+import emailjs from "@emailjs/browser"
 // ✅ Contact.jsx import — yeh use karo
 import { Mail, MapPin, Phone, GitBranch, ExternalLink, Send } from "lucide-react"
 import SectionTitle from "../ui/SectionTitle"
@@ -31,7 +32,10 @@ const socialLinks = [
     href: "mailto:your@email.com",
   },
 ]
-
+// ── Config ───────────────────────────────────────────
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 const contactInfo = [
   { icon: MapPin, text: "Karachi, Pakistan"    },
   { icon: Mail,   text: "msohailg211@gmail.com"       },
@@ -54,17 +58,31 @@ const Contact = () => {
   }
 
   // Submit handler — EmailJS baad mein add karein ge
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setLoading(true)
+const handleSubmit = (e) => {
+  e.preventDefault()
+  setLoading(true)
 
-    // Simulate send — EmailJS yahan aayega
-    setTimeout(() => {
-      setLoading(false)
-      setSent(true)
-      setForm(initialForm)
-    }, 1500)
-  }
+  emailjs.send(
+    EMAILJS_SERVICE_ID,
+    EMAILJS_TEMPLATE_ID,
+    {
+      from_name:  form.name,
+      from_email: form.email,
+      message:    form.message,
+    },
+    EMAILJS_PUBLIC_KEY
+  )
+  .then(() => {
+    setLoading(false)
+    setSent(true)
+    setForm(initialForm)
+  })
+  .catch((error) => {
+    console.error("EmailJS error:", error)
+    setLoading(false)
+    alert("Something went wrong. Please try again!")
+  })
+}
 
   return (
     <section
