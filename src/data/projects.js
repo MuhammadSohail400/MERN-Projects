@@ -1,4 +1,4 @@
-import nexusHR     from "../assets/images/projects/nexushr.png"
+import nexusHR     from "../assets/images/projects/nexusHR.png"
 import berryfood   from "../assets/images/projects/berryfood.png"
 import jobboard    from "../assets/images/projects/jobboard.png"
 import restaurentpos  from "../assets/images/projects/restaurent.png"
