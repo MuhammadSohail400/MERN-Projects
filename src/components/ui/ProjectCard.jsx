@@ -1,5 +1,5 @@
 import { ExternalLink, GitBranch } from "lucide-react"
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 
 const ProjectCard = ({ title, description, tags, demo, github, image }) => {
   return (
@@ -8,16 +8,17 @@ const ProjectCard = ({ title, description, tags, demo, github, image }) => {
       whileHover={{ y: -5 }}
       transition={{ duration: 0.2 }}
     >
-      {/* Image */}
-      <div className="relative overflow-hidden h-48">
+
+      {/* Image + Hover Overlay */}
+      <div className="relative overflow-hidden h-48 group">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        {/* Tags Overlay */}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-2">
+        {/* Tags — normal state */}
+        <div className="absolute top-3 left-3 flex flex-wrap gap-2 z-10">
           {tags.map((tag) => (
             <span
               key={tag}
@@ -27,6 +28,29 @@ const ProjectCard = ({ title, description, tags, demo, github, image }) => {
             </span>
           ))}
         </div>
+
+        {/* Hover Overlay — buttons */}
+        <div className="absolute inset-0 bg-bg/80 backdrop-blur-sm flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+          <a
+            href={demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-accent/80 transition"
+          >
+            <ExternalLink size={14} />
+            Live Demo
+          </a>
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 border border-white/20 text-light px-4 py-2 rounded-lg text-sm font-medium hover:border-cyan hover:text-cyan transition"
+          >
+            <GitBranch size={14} />
+            GitHub
+          </a>
+        </div>
+
       </div>
 
       {/* Content */}
@@ -34,37 +58,13 @@ const ProjectCard = ({ title, description, tags, demo, github, image }) => {
         <h3 className="font-syne font-bold text-light text-lg">
           {title}
         </h3>
-
         <p className="font-dm text-muted text-sm leading-relaxed flex-1">
           {description}
         </p>
-
-        {/* Buttons */}
-        <div className="flex items-center gap-4 pt-2 border-t border-white/5">
-          <a
-            href={demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-cyan text-sm font-medium hover:underline transition"
-          >
-            <ExternalLink size={14} />
-            Live Demo
-          </a>
-
-          <a
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-muted text-sm hover:text-light transition"
-          >
-            <GitBranch size={14} />
-
-            GitHub
-          </a>
-        </div>
       </div>
-    </motion.div>
-  );
-};
 
-export default ProjectCard;
+    </motion.div>
+  )
+}
+
+export default ProjectCard
