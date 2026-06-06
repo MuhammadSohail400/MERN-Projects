@@ -1,41 +1,50 @@
+// import nexushr     from "../assets/images/projects/nexushr.png"
+// import berryfood   from "../assets/images/projects/berryfood.png"
+// import jobboard    from "../assets/images/projects/jobboard.png"
+import restaurent  from "../assets/images/projects/restaurent.png"
+
 export const projects = [
   {
     id: 1,
     title: "NexusHR Dashboard",
-    description: "Employee Management Dashboard with full CRUD and Context API.",
+    description:
+      "Employee Management Dashboard with full CRUD operations, Context API global state, custom hooks, and atomic folder structure.",
     tags: ["React", "Tailwind", "Context API"],
     category: "frontend",
-    image: "/src/assets/images/projects/nexushr.png",
+    image: "https://placehold.co/600x400/12121A/6C63FF?text=NexusHR",
     demo: "#",
     github: "#",
   },
   {
     id: 2,
     title: "BerryFood",
-    description: "Dark luxury food delivery UI with component architecture.",
+    description:
+      "Dark luxury food delivery UI with component architecture, props patterns, and Tailwind v4 CSS-first configuration.",
     tags: ["React", "Tailwind v4"],
     category: "frontend",
-    image: "/src/assets/images/projects/berryfood.png",
+    image: "https://placehold.co/600x400/12121A/6C63FF?text=NexusHR",
     demo: "#",
     github: "#",
   },
   {
     id: 3,
     title: "Job Board Website",
-    description: "Full-featured job listing platform built with Next.js.",
-    tags: ["Next.js", "React"],
+    description:
+      "Full-featured job listing platform with search and filter functionality built with Next.js and Tailwind.",
+    tags: ["Next.js", "React", "Tailwind"],
     category: "fullstack",
-    image: "/src/assets/images/projects/jobboard.png",
+    image: "https://placehold.co/600x400/12121A/6C63FF?text=NexusHR",
     demo: "#",
     github: "#",
   },
   {
     id: 4,
     title: "Restaurant + Admin Dashboard",
-    description: "Restaurant website with complete admin panel.",
+    description:
+      "Restaurant website with complete admin panel for menu management, orders, and analytics.",
     tags: ["React", "Tailwind"],
     category: "fullstack",
-    image: "/src/assets/images/projects/restaurant.png",
+    image: restaurent,
     demo: "#",
     github: "#",
   },

@@ -29,7 +29,7 @@ const SkillCard = ({ category, icon: Icon, items }) => {
           >
             {/* Skill Name */}
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan flex-shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan shrink-0" />
               <span className="font-dm text-muted text-sm">
                 {skill.name}
               </span>
