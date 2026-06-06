@@ -1,5 +1,5 @@
 import Layout from "./components/layout/Layout"
-// import Hero from "./components/sections/Hero"
+import Hero from "./components/sections/Hero"
 // import About from "./components/sections/About"
 // import Skills from "./components/sections/Skills"
 // import Projects from "./components/sections/Projects"
@@ -9,8 +9,8 @@ import Layout from "./components/layout/Layout"
 const App = () => {
   return (
     <Layout>
-      {/* <Hero />
-      <About />
+      <Hero />
+      {/* <About />
       <Skills />
       <Projects />
       <Experience />
