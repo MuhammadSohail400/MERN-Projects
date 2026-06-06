@@ -5,7 +5,7 @@ import Skills from "./components/sections/Skills"
 import Projects from "./components/sections/Projects"
 import Experience from "./components/sections/Experience"
 import Stats from "./components/sections/Stats"
-// import Contact from "./components/sections/Contact"
+import Contact from "./components/sections/Contact"
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
       <Projects />
        <Stats />
       <Experience />
-      {/* <Contact /> */}
+      <Contact />
     </Layout>
   )
 }
