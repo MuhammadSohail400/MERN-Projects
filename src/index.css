@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@theme {
+  /* ── Colors ── */
+  --color-bg:      #0A0A0F;
+  --color-surface: #12121A;
+  --color-accent:  #6C63FF;
+  --color-cyan:    #00D4FF;
+  --color-muted:   #8888AA;
+  --color-light:   #F0F0F0;
+
+  /* ── Fonts ── */
+  --font-syne: "Syne", sans-serif;
+  --font-dm:   "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* ── Base Styles ── */
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-light);
+  font-family: var(--font-dm);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-syne);
+}
