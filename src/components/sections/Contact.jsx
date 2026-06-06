@@ -33,9 +33,9 @@ const socialLinks = [
   },
 ]
 // ── Config ───────────────────────────────────────────
-const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+const EMAILJS_SERVICE_ID  = "service_js2nn5s"   // ← apna daalo
+const EMAILJS_TEMPLATE_ID = "template_wkds5ee"  // ← apna daalo
+const EMAILJS_PUBLIC_KEY  = "Gqhx4gAU52ryh1e76"   // ← apna daalo
 const contactInfo = [
   { icon: MapPin, text: "Karachi, Pakistan"    },
   { icon: Mail,   text: "msohailg211@gmail.com"       },
