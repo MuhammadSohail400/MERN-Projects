@@ -9,6 +9,8 @@ import Stats from "./components/sections/Stats"
 import Contact from "./components/sections/Contact"
 import ScrollToTopButton from "./components/ui/ScrollToTopButton"
 import PageLoader from "./components/ui/PageLoader"
+import Testimonials from "./components/sections/Testimonials"
+import Achievements from "./components/sections/Achievements"
 
 const App = () => {
     const [loading, setLoading] = useState(true)
@@ -29,6 +31,8 @@ const App = () => {
           <Projects />
           <Stats />
           <Experience />
+          <Achievements />   
+          <Testimonials />
           <Contact />
         </Layout>
       )}

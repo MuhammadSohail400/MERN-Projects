@@ -5,12 +5,12 @@ import useActiveSection from "../../hooks/useActiveSection"
 import logo from "../../assets/images/logo.png"
 // ── Nav Links Config ─────────────────────────────────
 const navLinks = [
-  { label: "Projects",   href: "projects"   },
-  { label: "Skills",     href: "skills"     },
-  { label: "Experience", href: "experience" },
-  { label: "Contact",    href: "contact"    },
+  { label: "Projects",     href: "projects"     },
+  { label: "Skills",       href: "skills"       },
+  { label: "Experience",   href: "experience"   },
+  { label: "Achievements", href: "achievements" },
+  { label: "Contact",      href: "contact"      },
 ]
-
 const sectionIds = navLinks.map((link) => link.href)
 
 // ── Component ────────────────────────────────────────
