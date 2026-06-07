@@ -1,15 +1,14 @@
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { MapPin, GraduationCap, Briefcase, Rocket } from "lucide-react"
 import SectionTitle from "../ui/SectionTitle"
 import profile from "../../assets/images/Profile.png"
 
-// ── Animation Variants ──────────────────────────────
 const fadeUp = {
   hidden:  { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
 }
 
-// ── Local Component — sirf About mein use hoga ──────
 const HighlightCard = ({ icon: Icon, title, description }) => {
   return (
     <div className="bg-surface border border-white/5 rounded-xl p-4 flex items-start gap-3 hover:border-accent/30 transition-colors duration-200">
@@ -24,7 +23,6 @@ const HighlightCard = ({ icon: Icon, title, description }) => {
   )
 }
 
-// ── Static Data — list nahi hai isliye data file nahi ──
 const highlights = [
   {
     icon: GraduationCap,
@@ -43,8 +41,10 @@ const highlights = [
   },
 ]
 
-// ── Main Component ───────────────────────────────────
 const About = () => {
+
+  const [touched, setTouched] = useState(false)
+
   return (
     <section
       id="about"
@@ -61,36 +61,38 @@ const About = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="relative w-56 h-56 md:w-72 md:h-72">
-
+          {/* Image container — tap toggle mobile */}
+          <div
+            className="relative w-56 h-56 md:w-72 md:h-72 cursor-pointer"
+            onClick={() => setTouched(!touched)}
+          >
             {/* Glow */}
             <div className="absolute inset-0 rounded-2xl bg-cyan/10 blur-2xl" />
 
             {/* Image */}
-
-          <img
-            src={profile}
-            alt="Muhammad Sohail"
-            className="relative z-10 w-full h-full object-cover rounded-2xl border border-white/10 grayscale hover:grayscale-0 transition-all duration-500"
-          />
+            <img
+              src={profile}
+              alt="Muhammad Sohail"
+              className={`relative z-10 w-full h-full object-cover rounded-2xl border border-white/10 transition-all duration-500
+                md:grayscale md:hover:grayscale-0
+                ${touched ? "grayscale-0" : "grayscale"}
+              `}
+            />
 
           </div>
         </motion.div>
 
         {/* ── Right Side — Content ── */}
         <motion.div
-          className="flex-1 flex flex-col gap-6 min-w-0"  // ← min-w-0 add karo
+          className="flex-1 flex flex-col gap-6 min-w-0"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-
-          {/* Title */}
           <SectionTitle label="Crafting Digital" highlight="Excellence" />
 
-          {/* Bio */}
           <p className="font-dm text-muted text-base leading-relaxed max-w-lg">
             Currently pursuing a BSCS degree in the vibrant tech hub of
             Karachi. I am a passionate Frontend Developer evolving into a
@@ -105,7 +107,6 @@ const About = () => {
             products that matter.
           </p>
 
-          {/* Location + Education Badges */}
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center gap-2 text-muted text-sm">
               <MapPin size={14} className="text-cyan" />
@@ -117,7 +118,6 @@ const About = () => {
             </div>
           </div>
 
-          {/* Highlight Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
             {highlights.map((item) => (
               <HighlightCard
