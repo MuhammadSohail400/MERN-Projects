@@ -101,11 +101,11 @@ const Hero = () => {
             </GlowButton>
 
             <GlowButton
-              variant="outline"
-              onClick={() => window.open("/resume.pdf")}
-            >
-              Download Resume <Download size={16} />
-            </GlowButton>
+            variant="outline"
+            onClick={() => window.open("/resume.pdf")}
+          >
+            Download Resume <Download size={16} />
+          </GlowButton>
           </motion.div>
 
         </motion.div>

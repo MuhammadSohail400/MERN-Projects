@@ -2,8 +2,8 @@ export const experience = [
   {
     id: 1,
     year: "2026 — Present",
-    role: "Web developer Intern",
-    company: "Rhombix Technologies",
+    role: "frontend Developer Intern",
+    company: "DeveloperHub",
     description:
       "Building a personal portfolio website using React and Tailwind CSS v4. Working on component architecture, animations, and responsive design.",
   },
