@@ -13,10 +13,10 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated/notes'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAiToolsRouteImport } from './routes/_authenticated/ai-tools'
+import { Route as AuthenticatedNotesIndexRouteImport } from './routes/_authenticated/notes.index'
 import { Route as AuthenticatedNotesNewRouteImport } from './routes/_authenticated/notes.new'
 import { Route as AuthenticatedNotesNoteIdRouteImport } from './routes/_authenticated/notes.$noteId'
 
@@ -39,11 +39,6 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedNotesRoute = AuthenticatedNotesRouteImport.update({
-  id: '/notes',
-  path: '/notes',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
@@ -59,16 +54,21 @@ const AuthenticatedAiToolsRoute = AuthenticatedAiToolsRouteImport.update({
   path: '/ai-tools',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNotesIndexRoute = AuthenticatedNotesIndexRouteImport.update({
+  id: '/notes/',
+  path: '/notes/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedNotesNewRoute = AuthenticatedNotesNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => AuthenticatedNotesRoute,
+  id: '/notes/new',
+  path: '/notes/new',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedNotesNoteIdRoute =
   AuthenticatedNotesNoteIdRouteImport.update({
-    id: '/$noteId',
-    path: '/$noteId',
-    getParentRoute: () => AuthenticatedNotesRoute,
+    id: '/notes/$noteId',
+    path: '/notes/$noteId',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -77,10 +77,10 @@ export interface FileRoutesByFullPath {
   '/ai-tools': typeof AuthenticatedAiToolsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
-  '/notes': typeof AuthenticatedNotesRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRoute
   '/notes/$noteId': typeof AuthenticatedNotesNoteIdRoute
   '/notes/new': typeof AuthenticatedNotesNewRoute
+  '/notes/': typeof AuthenticatedNotesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -88,10 +88,10 @@ export interface FileRoutesByTo {
   '/ai-tools': typeof AuthenticatedAiToolsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
-  '/notes': typeof AuthenticatedNotesRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRoute
   '/notes/$noteId': typeof AuthenticatedNotesNoteIdRoute
   '/notes/new': typeof AuthenticatedNotesNewRoute
+  '/notes': typeof AuthenticatedNotesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -101,10 +101,10 @@ export interface FileRoutesById {
   '/_authenticated/ai-tools': typeof AuthenticatedAiToolsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
-  '/_authenticated/notes': typeof AuthenticatedNotesRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/notes/$noteId': typeof AuthenticatedNotesNoteIdRoute
   '/_authenticated/notes/new': typeof AuthenticatedNotesNewRoute
+  '/_authenticated/notes/': typeof AuthenticatedNotesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -114,10 +114,10 @@ export interface FileRouteTypes {
     | '/ai-tools'
     | '/dashboard'
     | '/favorites'
-    | '/notes'
     | '/settings'
     | '/notes/$noteId'
     | '/notes/new'
+    | '/notes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -125,10 +125,10 @@ export interface FileRouteTypes {
     | '/ai-tools'
     | '/dashboard'
     | '/favorites'
-    | '/notes'
     | '/settings'
     | '/notes/$noteId'
     | '/notes/new'
+    | '/notes'
   id:
     | '__root__'
     | '/'
@@ -137,10 +137,10 @@ export interface FileRouteTypes {
     | '/_authenticated/ai-tools'
     | '/_authenticated/dashboard'
     | '/_authenticated/favorites'
-    | '/_authenticated/notes'
     | '/_authenticated/settings'
     | '/_authenticated/notes/$noteId'
     | '/_authenticated/notes/new'
+    | '/_authenticated/notes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -179,13 +179,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/notes': {
-      id: '/_authenticated/notes'
-      path: '/notes'
-      fullPath: '/notes'
-      preLoaderRoute: typeof AuthenticatedNotesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/favorites': {
       id: '/_authenticated/favorites'
       path: '/favorites'
@@ -207,50 +200,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAiToolsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notes/': {
+      id: '/_authenticated/notes/'
+      path: '/notes'
+      fullPath: '/notes/'
+      preLoaderRoute: typeof AuthenticatedNotesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/notes/new': {
       id: '/_authenticated/notes/new'
-      path: '/new'
+      path: '/notes/new'
       fullPath: '/notes/new'
       preLoaderRoute: typeof AuthenticatedNotesNewRouteImport
-      parentRoute: typeof AuthenticatedNotesRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/notes/$noteId': {
       id: '/_authenticated/notes/$noteId'
-      path: '/$noteId'
+      path: '/notes/$noteId'
       fullPath: '/notes/$noteId'
       preLoaderRoute: typeof AuthenticatedNotesNoteIdRouteImport
-      parentRoute: typeof AuthenticatedNotesRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
-
-interface AuthenticatedNotesRouteChildren {
-  AuthenticatedNotesNoteIdRoute: typeof AuthenticatedNotesNoteIdRoute
-  AuthenticatedNotesNewRoute: typeof AuthenticatedNotesNewRoute
-}
-
-const AuthenticatedNotesRouteChildren: AuthenticatedNotesRouteChildren = {
-  AuthenticatedNotesNoteIdRoute: AuthenticatedNotesNoteIdRoute,
-  AuthenticatedNotesNewRoute: AuthenticatedNotesNewRoute,
-}
-
-const AuthenticatedNotesRouteWithChildren =
-  AuthenticatedNotesRoute._addFileChildren(AuthenticatedNotesRouteChildren)
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAiToolsRoute: typeof AuthenticatedAiToolsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
-  AuthenticatedNotesRoute: typeof AuthenticatedNotesRouteWithChildren
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedNotesNoteIdRoute: typeof AuthenticatedNotesNoteIdRoute
+  AuthenticatedNotesNewRoute: typeof AuthenticatedNotesNewRoute
+  AuthenticatedNotesIndexRoute: typeof AuthenticatedNotesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAiToolsRoute: AuthenticatedAiToolsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
-  AuthenticatedNotesRoute: AuthenticatedNotesRouteWithChildren,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedNotesNoteIdRoute: AuthenticatedNotesNoteIdRoute,
+  AuthenticatedNotesNewRoute: AuthenticatedNotesNewRoute,
+  AuthenticatedNotesIndexRoute: AuthenticatedNotesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
