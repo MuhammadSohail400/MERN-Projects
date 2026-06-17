@@ -3,7 +3,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import {
-  createNote,
   deleteNote,
   getNote,
   toggleFavorite,
@@ -12,6 +11,7 @@ import {
   type Note,
 } from "@/lib/notes";
 import { summarizeNote } from "@/lib/notes.functions";
+
 import { toast } from "sonner";
 import { FocusModeButton } from "@/components/FocusMode";
 import {
