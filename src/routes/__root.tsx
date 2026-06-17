@@ -93,6 +93,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "StudyVault — Organize your study life" },
+      { name: "description", content: "Study Flow is a web application for students to create, organize, search, and export notes efficiently." },
+      { property: "og:description", content: "Study Flow is a web application for students to create, organize, search, and export notes efficiently." },
+      { name: "twitter:description", content: "Study Flow is a web application for students to create, organize, search, and export notes efficiently." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1cee8202-3ad9-4fcc-9bfb-073605bc2e54/id-preview-555a16fa--bee52eab-2bbd-4672-8ee8-2499e2543a18.lovable.app-1781704143004.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1cee8202-3ad9-4fcc-9bfb-073605bc2e54/id-preview-555a16fa--bee52eab-2bbd-4672-8ee8-2499e2543a18.lovable.app-1781704143004.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
