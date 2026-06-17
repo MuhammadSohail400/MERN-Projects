@@ -44,38 +44,13 @@ const CATEGORY_OPTIONS = [
 
 function NoteEditorPage() {
   const { noteId } = Route.useParams();
-  const navigate = useNavigate();
-  const qc = useQueryClient();
-  const isNew = noteId === "new";
-
-  // For /notes/new: create then redirect to its id
-  const createdRef = useRef(false);
-  useEffect(() => {
-    if (isNew && !createdRef.current) {
-      createdRef.current = true;
-      createNote()
-        .then((n) => {
-          qc.invalidateQueries({ queryKey: ["notes"] });
-          navigate({
-            to: "/notes/$noteId",
-            params: { noteId: n.id },
-            replace: true,
-          });
-        })
-        .catch((e) => {
-          toast.error(e instanceof Error ? e.message : "Could not create note");
-          navigate({ to: "/notes" });
-        });
-    }
-  }, [isNew, navigate, qc]);
 
   const noteQuery = useQuery({
     queryKey: ["note", noteId],
     queryFn: () => getNote(noteId),
-    enabled: !isNew,
   });
 
-  if (isNew || noteQuery.isLoading) {
+  if (noteQuery.isLoading) {
     return (
       <div className="grid min-h-[60vh] place-items-center">
         <Loader2 className="size-6 animate-spin text-gold" />
@@ -92,6 +67,7 @@ function NoteEditorPage() {
 
   return <Editor initial={noteQuery.data} />;
 }
+
 
 function Editor({ initial }: { initial: Note }) {
   const navigate = useNavigate();
