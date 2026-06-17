@@ -93,7 +93,7 @@ function NotesList() {
         <div className="rounded-2xl border border-dashed border-border bg-card/40 p-16 text-center">
           <h3 className="font-display text-xl font-semibold">No notes match</h3>
           <p className="mt-2 text-sm text-muted-foreground">
-            {query ? "Try a different search." : "Create your first note to get started."}
+            {query ? "Try a different search." : "hi this is my first notes"}
           </p>
         </div>
       ) : (
