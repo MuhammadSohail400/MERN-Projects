@@ -5,7 +5,7 @@ import { NoteCard } from "@/components/NoteCard";
 import { useMemo, useState } from "react";
 import { Plus, SearchIcon } from "lucide-react";
 
-export const Route = createFileRoute("/_authenticated/notes")({
+export const Route = createFileRoute("/_authenticated/notes/")({
   head: () => ({ meta: [{ title: "My Notes — StudyVault" }] }),
   component: NotesList,
 });
