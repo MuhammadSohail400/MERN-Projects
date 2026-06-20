@@ -3,7 +3,6 @@ import useAuth from '../../hooks/useAuth'
 import { BellIcon, SearchIcon, PlusIcon } from '../../assets/icons/index'
 
 // ─── Page title mapping ───────────────────────────────────────
-// useLocation se path lo → title dikhao
 const PAGE_TITLES = {
   '/':         { title: 'Dashboard',  sub: 'Welcome back'           },
   '/orders':   { title: 'Orders',     sub: 'Manage all orders'      },
@@ -22,21 +21,28 @@ const PAGE_ACTIONS = {
   '/tables': { label: 'Add Table',     path: '/tables'     },
 }
 
+// ─── Hamburger icon (mobile only) ──────────────────────────────
+const HamburgerIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+)
+
 // ════════════════════════════════════════════════════════
 // TOPBAR COMPONENT
 // ════════════════════════════════════════════════════════
-const Topbar = () => {
+const Topbar = ({ onMenuClick }) => {
   const location = useLocation()
-  // useLocation → current URL ka info deta hai
-  // location.pathname = '/orders', '/menu' etc.
-
   const { user } = useAuth()
 
   const pageInfo   = PAGE_TITLES[location.pathname]  || PAGE_TITLES['/']
   const pageAction = PAGE_ACTIONS[location.pathname]
 
   return (
-    <div style={{
+    <div className="app-topbar" style={{
       height: 60,
       background: '#111113',
       borderBottom: '1px solid #ffffff08',
@@ -47,29 +53,54 @@ const Topbar = () => {
       flexShrink: 0,
       position: 'sticky',
       top: 0, zIndex: 10,
+      gap: 12,
     }}>
 
-      {/* ── Left: Page Title ── */}
-      <div>
-        <h1 style={{
-          fontFamily: 'Space Grotesk, sans-serif',
-          fontSize: 16, fontWeight: 700,
-          color: '#f4f4f5',
-          letterSpacing: '-0.02em',
-          lineHeight: 1,
-        }}>
-          {pageInfo.title}
-        </h1>
-        <p style={{ fontSize: 11, color: '#52525b', marginTop: 2 }}>
-          {pageInfo.sub}
-        </p>
+      {/* ── Left: Hamburger (mobile) + Page Title ── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+
+        {/* Hamburger — mobile only */}
+        <button
+          onClick={onMenuClick}
+          className="topbar-hamburger"
+          style={{
+            display: 'none',
+            width: 34, height: 34, flexShrink: 0,
+            background: '#18181b',
+            border: '1px solid #ffffff0a',
+            borderRadius: 8,
+            alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', color: '#a1a1aa',
+          }}
+        >
+          <HamburgerIcon />
+        </button>
+
+        <div style={{ minWidth: 0 }}>
+          <h1 style={{
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontSize: 16, fontWeight: 700,
+            color: '#f4f4f5',
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          }}>
+            {pageInfo.title}
+          </h1>
+          <p className="topbar-subtitle" style={{
+            fontSize: 11, color: '#52525b', marginTop: 2,
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          }}>
+            {pageInfo.sub}
+          </p>
+        </div>
       </div>
 
       {/* ── Right: Actions ── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
 
-        {/* Search */}
-        <div style={{
+        {/* Search — hidden on small screens */}
+        <div className="topbar-search" style={{
           display: 'flex', alignItems: 'center', gap: 8,
           background: '#18181b',
           border: '1px solid #ffffff0a',
@@ -94,7 +125,7 @@ const Topbar = () => {
         {/* Notification Bell */}
         <button style={{
           position: 'relative',
-          width: 34, height: 34,
+          width: 34, height: 34, flexShrink: 0,
           background: '#18181b',
           border: '1px solid #ffffff0a',
           borderRadius: 8,
@@ -122,9 +153,9 @@ const Topbar = () => {
           }}/>
         </button>
 
-        {/* CTA Button — page ke hisaab se */}
+        {/* CTA Button — page ke hisaab se, label hides on very small screens */}
         {pageAction && (
-          <button style={{
+          <button className="topbar-cta" style={{
             display: 'flex', alignItems: 'center', gap: 6,
             background: 'linear-gradient(135deg, #f97316, #ea580c)',
             border: 'none', borderRadius: 8,
@@ -133,6 +164,7 @@ const Topbar = () => {
             color: 'white', cursor: 'pointer',
             boxShadow: '0 0 16px #f9731630',
             transition: 'opacity 0.15s, transform 0.1s',
+            whiteSpace: 'nowrap',
           }}
             onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
             onMouseLeave={e => e.currentTarget.style.opacity = '1'}
@@ -140,13 +172,13 @@ const Topbar = () => {
             onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
           >
             <PlusIcon size={12} />
-            {pageAction.label}
+            <span className="topbar-cta-label">{pageAction.label}</span>
           </button>
         )}
 
         {/* Avatar */}
         <div style={{
-          width: 34, height: 34,
+          width: 34, height: 34, flexShrink: 0,
           background: 'linear-gradient(135deg, #f97316, #ea580c)',
           borderRadius: 8,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -157,6 +189,32 @@ const Topbar = () => {
           {user?.name?.charAt(0) || 'A'}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .topbar-hamburger {
+            display: flex !important;
+          }
+          .topbar-search {
+            display: none !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .app-topbar {
+            padding: 0 14px !important;
+          }
+          .topbar-subtitle {
+            display: none;
+          }
+          .topbar-cta-label {
+            display: none;
+          }
+          .topbar-cta {
+            padding: 8px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

@@ -78,7 +78,9 @@ const StaffModal = ({ isOpen, onClose, onSave, editMember }) => {
         border: '1px solid #2a2a2a',
         borderRadius: 16,
         width: '100%', maxWidth: 460,
+        maxHeight: '90vh', overflowY: 'auto',
         padding: 28,
+        boxSizing: 'border-box',
         display: 'flex', flexDirection: 'column', gap: 18,
       }}>
 
@@ -99,7 +101,7 @@ const StaffModal = ({ isOpen, onClose, onSave, editMember }) => {
               color: '#71717a', cursor: 'pointer',
               fontSize: 16, display: 'flex',
               alignItems: 'center', justifyContent: 'center',
-              transition: 'all 0.15s',
+              transition: 'all 0.15s', flexShrink: 0,
             }}
             onMouseEnter={e => e.currentTarget.style.color = '#f4f4f5'}
             onMouseLeave={e => e.currentTarget.style.color = '#71717a'}
@@ -119,7 +121,7 @@ const StaffModal = ({ isOpen, onClose, onSave, editMember }) => {
         </Field>
 
         {/* Email + Phone */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div className="staffmodal-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <Field label="Email Address" error={errors.email}>
             <input
               value={form.email}
@@ -139,7 +141,7 @@ const StaffModal = ({ isOpen, onClose, onSave, editMember }) => {
         </div>
 
         {/* Role + Shift */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div className="staffmodal-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <Field label="Role">
             <select
               value={form.role}
@@ -170,12 +172,12 @@ const StaffModal = ({ isOpen, onClose, onSave, editMember }) => {
         {/* Active Status Toggle */}
         <div style={{
           display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'space-between', gap: 10,
           background: '#1a1a1a',
           border: '1px solid #2a2a2a',
           borderRadius: 10, padding: '12px 14px',
         }}>
-          <div>
+          <div style={{ minWidth: 0 }}>
             <p style={{ fontSize: 13, fontWeight: 600, color: '#f4f4f5' }}>
               Active Status
             </p>
@@ -244,6 +246,14 @@ const StaffModal = ({ isOpen, onClose, onSave, editMember }) => {
           </button>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 480px) {
+          .staffmodal-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
@@ -263,6 +273,7 @@ const Field = ({ label, error, children }) => (
 
 const inputSt = (error) => ({
   width: '100%',
+  boxSizing: 'border-box',
   background: '#0d0d0d',
   border: `1px solid ${error ? '#ef444440' : '#2a2a2a'}`,
   borderRadius: 8, padding: '10px 12px',
