@@ -1,0 +1,97 @@
+/* src/index.css */
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@theme {
+  /* ── Brand Colors ── */
+  --color-brand:        #f97316;
+  --color-brand-hover:  #ea6a08;
+  --color-brand-muted:  #f9731620;
+
+  /* ── Surface Colors (Dark) ── */
+  --color-bg:           #0a0a0b;
+  --color-surface:      #111113;
+  --color-surface-2:    #18181b;
+  --color-surface-3:    #1c1c20;
+  --color-surface-4:    #242428;
+
+  /* ── Border Colors ── */
+  --color-border:       #ffffff0f;
+  --color-border-light: #ffffff18;
+
+  /* ── Text Colors ── */
+  --color-text-primary:   #f4f4f5;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted:     #52525b;
+  --color-text-disabled:  #3f3f46;
+
+  /* ── State Colors ── */
+  --color-success:      #22c55e;
+  --color-success-muted:#22c55e18;
+  --color-warning:      #eab308;
+  --color-warning-muted:#eab30818;
+  --color-danger:       #ef4444;
+  --color-danger-muted: #ef444418;
+  --color-info:         #3b82f6;
+  --color-info-muted:   #3b82f618;
+
+  /* ── Typography ── */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  
+
+  /* ── Spacing & Radius ── */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-sm:  0 1px 3px #0000004d, 0 1px 2px #0000006b;
+  --shadow-md:  0 4px 16px #00000059, 0 2px 6px #0000004d;
+  --shadow-lg:  0 8px 32px #00000073, 0 4px 12px #00000059;
+  --shadow-glow: 0 0 24px #f9731628;
+}
+
+/* ── Base Styles ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-4);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+
+/* ── Glassmorphism utility ── */
+.glass {
+  background: #ffffff08;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+}
+
+/* ── Focus ring ── */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
