@@ -11,6 +11,7 @@ import NewOrderPage     from '../pages/orders/NewOrderPage'
 import TablesPage from '../pages/tables/TablesPage'
 import StaffPage from '../pages/staff/StaffPage'
 import ReportsPage from '../pages/reports/ReportsPage'
+import SettingsPage from '../pages/settings/SettingsPage'
 
 
 
@@ -72,7 +73,7 @@ const AppRouter = () => (
           <Route path="/tables" element={<TablesPage />} />
           <Route path="/staff" element={<StaffPage />} />
           <Route path="/reports" element={<ReportsPage />} />
-          <Route path="/settings" element={<Placeholder title="Settings"   />} />
+          <Route path="/settings" element={<SettingsPage />} />
 
         </Route>
       </Route>

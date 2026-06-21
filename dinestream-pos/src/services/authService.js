@@ -16,6 +16,16 @@ const authService = {
     const res = await axiosInstance.get('/auth/me')
     return res.data
   },
+
+  updateProfile: async (data) => {
+    const res = await axiosInstance.put('/auth/profile', data)
+    return res.data
+  },
+
+  changePassword: async (data) => {
+    const res = await axiosInstance.put('/auth/change-password', data)
+    return res.data
+  },
 }
 
 export default authService

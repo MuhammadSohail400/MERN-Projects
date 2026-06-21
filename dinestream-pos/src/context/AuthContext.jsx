@@ -64,6 +64,36 @@ export const AuthProvider = ({ children }) => {
     }
   }, [])
 
+  const updateProfile = async (data) => {
+  try {
+    const res = await authService.updateProfile(data)
+    const updatedUser = res.data
+
+    // localStorage + state update karo
+    localStorage.setItem('ds_user', JSON.stringify(updatedUser))
+    dispatch({
+      type:    AUTH_ACTIONS.UPDATE_PROFILE,
+      payload: updatedUser,
+    })
+
+    return { success: true, user: updatedUser }
+  } catch (err) {
+    const message = err.response?.data?.message || 'Update failed'
+    return { success: false, error: message }
+  }
+}
+
+const changePassword = async (data) => {
+  try {
+    await authService.changePassword(data)
+    return { success: true }
+  } catch (err) {
+    const message = err.response?.data?.message || 'Password change failed'
+    return { success: false, error: message }
+  }
+}
+
+
   const value = {
     user:            state.user,
     token:           state.token,
@@ -73,6 +103,8 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     clearError,
+    updateProfile,      // ← ADD
+    changePassword,
   }
 
   return (
