@@ -44,6 +44,7 @@ export const OrdersProvider = ({ children }) => {
     try {
       const payload = {
         tableId: orderData.tableId,
+        waiterId: orderData.waiterId,
         notes:   orderData.notes,
         items:   orderData.items.map(item => ({
           menuItemId: item.id,

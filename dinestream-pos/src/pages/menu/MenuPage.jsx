@@ -54,7 +54,7 @@ const SkeletonCard = () => (
 // MENU PAGE
 // ════════════════════════════════════════════════════════
 const MenuPage = () => {
-  const { items, isLoading, addItem, editItem, deleteItem, toggleAvailability,getCategoryId } = useMenu()
+  const { items, isLoading, addItem, editItem, deleteItem, toggleAvailability,getCategoryId,fetchMenu } = useMenu()
 
   const [search,       setSearch]       = useState('')
   const [activeCategory, setActiveCategory] = useState('All')
@@ -130,6 +130,7 @@ const MenuPage = () => {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         flexWrap: 'wrap', gap: 12,
       }}>
+
         <div>
           <h2 style={{
             fontFamily: 'Space Grotesk, sans-serif',
@@ -142,6 +143,12 @@ const MenuPage = () => {
             {stats.total} items · {stats.available} available · {stats.unavailable} unavailable
           </p>
         </div>
+        <button
+            onClick={fetchMenu}
+            className="px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-400 text-xs"
+          >
+            🔄 Refresh
+          </button>
         <button
           onClick={handleAddNew}
           style={{

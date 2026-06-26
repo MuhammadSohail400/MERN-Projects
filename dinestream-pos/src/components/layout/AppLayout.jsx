@@ -8,6 +8,7 @@ const AppLayout = () => {
   const [collapsed,   setCollapsed]   = useState(false)
   const [mobileOpen,  setMobileOpen]  = useState(false)
   const location = useLocation()
+  
 
   const handleToggle = useCallback(() => {
     setCollapsed(prev => !prev)

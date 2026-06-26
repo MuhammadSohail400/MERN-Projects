@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
+import useRestaurant from '../../hooks/useRestaurant'
 import { BellIcon, SearchIcon, PlusIcon } from '../../assets/icons/index'
 
 // ─── Page title mapping ───────────────────────────────────────
@@ -37,6 +38,7 @@ const HamburgerIcon = ({ size = 18 }) => (
 const Topbar = ({ onMenuClick }) => {
   const location = useLocation()
   const { user } = useAuth()
+    const { restaurant } = useRestaurant()
 
   const pageInfo   = PAGE_TITLES[location.pathname]  || PAGE_TITLES['/']
   const pageAction = PAGE_ACTIONS[location.pathname]
@@ -77,6 +79,15 @@ const Topbar = ({ onMenuClick }) => {
         </button>
 
         <div style={{ minWidth: 0 }}>
+           {restaurant && (
+          <p style={{
+            fontSize: 10, color: '#f97316',
+            fontWeight: 600, letterSpacing: '0.05em',
+            textTransform: 'uppercase', marginBottom: 2,
+          }}>
+            {restaurant.name}
+          </p>
+        )}
           <h1 style={{
             fontFamily: 'Space Grotesk, sans-serif',
             fontSize: 16, fontWeight: 700,

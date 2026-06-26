@@ -141,6 +141,16 @@ export const MenuProvider = ({ children }) => {
       await editItem({ ...item, isAvailable: !item.isAvailable })
     }
   }
+  const addCategory = async (data) => {
+  try {
+    const res = await menuService.createCategory(data)
+    setCategories(prev => [...prev, res.data])
+    return { success: true, category: res.data }
+  } catch (err) {
+    console.error('Add category failed:', err.response?.data || err)
+    return { success: false, error: err.response?.data?.message || err.message }
+  }
+}
 
   // ── Value — getCategoryId export karo ────────────────────────
   const value = {
@@ -152,7 +162,8 @@ export const MenuProvider = ({ children }) => {
     deleteItem,
     toggleAvailability,
     fetchMenu,
-    getCategoryId,                     // ← export karo
+    getCategoryId,
+     addCategory,                // ← export karo
   }
 
   return (

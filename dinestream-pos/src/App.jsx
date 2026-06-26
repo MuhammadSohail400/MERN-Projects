@@ -6,22 +6,26 @@ import { TablesProvider } from './context/TableContext'
 import { StaffProvider }  from './context/StaffContext'
 import { ToastProvider }  from './context/ToastContext'
 import ToastContainer     from './components/ui/Toast'
+import { RestaurantProvider } from './context/RestaurantContext'
 
 
-// AuthProvider → poori app wrap — har jagah useAuth() available
+
+
 const App = () => (
     <ToastProvider>
     <AuthProvider>
+       <RestaurantProvider>
       <MenuProvider>
         <OrdersProvider>
           <TablesProvider>
             <StaffProvider>
               <AppRouter />
-              <ToastContainer />   {/* ← yahan render hoga, hamesha visible */}
+              <ToastContainer />
             </StaffProvider>
           </TablesProvider>
         </OrdersProvider>
       </MenuProvider>
+       </RestaurantProvider>
     </AuthProvider>
   </ToastProvider>
 )

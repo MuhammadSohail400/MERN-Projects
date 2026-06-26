@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useAuth from '../../hooks/useAuth'
 import useToast from '../../hooks/useToast'
+import restaurantService from '../../services/restaurantService'
+import useRestaurant from '../../hooks/useRestaurant'
 
 // ─── Tabs ──────────────────────────────────────────────────────
 const TABS = [
-  { key: 'profile',     label: 'Profile',      icon: '👤' },
-  { key: 'security',    label: 'Security',     icon: '🔒' },
-  { key: 'restaurant',  label: 'Restaurant',   icon: '🍽️' },
+  { key: 'profile',    label: 'Profile',    icon: '👤' },
+  { key: 'security',   label: 'Security',   icon: '🔒' },
+  { key: 'restaurant', label: 'Restaurant', icon: '🍽️' },
 ]
 
 // ─── Reusable Input ────────────────────────────────────────────
@@ -26,12 +28,25 @@ const Input = ({ label, error, ...props }) => (
   </div>
 )
 
+// ─── Skeleton for restaurant form while loading ───────────────
+const FormSkeleton = () => (
+  <div className="flex flex-col gap-4">
+    {Array(3).fill(0).map((_, i) => (
+      <div key={i} className="flex flex-col gap-1.5">
+        <div className="h-3 w-24 bg-zinc-800 rounded animate-pulse"/>
+        <div className="h-10 bg-zinc-800 rounded-lg animate-pulse"/>
+      </div>
+    ))}
+  </div>
+)
+
 // ════════════════════════════════════════════════════════
 // SETTINGS PAGE
 // ════════════════════════════════════════════════════════
 const SettingsPage = () => {
   const { user, updateProfile, changePassword } = useAuth()
   const toast = useToast()
+  const { refreshRestaurant } = useRestaurant()
 
   const [activeTab, setActiveTab] = useState('profile')
 
@@ -52,14 +67,41 @@ const SettingsPage = () => {
   const [passwordErrors, setPasswordErrors]   = useState({})
   const [passwordLoading, setPasswordLoading] = useState(false)
 
-  // ── Restaurant form state (local only — future backend hook) ──
+  // ── Restaurant form state — real backend data ────────────────
   const [restaurantForm, setRestaurantForm] = useState({
-    name:    'DineStream Restaurant',
-    address: 'Karachi, Pakistan',
-    phone:   '+92 300 0000000',
+    name:    '',
+    address: '',
+    phone:   '',
   })
+  const [restaurantErrors,  setRestaurantErrors]  = useState({})
+  const [restaurantLoading, setRestaurantLoading] = useState(false)
+  const [restaurantFetching, setRestaurantFetching] = useState(true)
 
-  // ── Profile validation ───────────────────────────────────────
+
+
+  // ── Fetch restaurant info on mount ───────────────────────────
+  useEffect(() => {
+    const loadRestaurant = async () => {
+      try {
+        const res = await restaurantService.get()
+        setRestaurantForm({
+          name:    res.data.name    || '',
+          address: res.data.address || '',
+          phone:   res.data.phone   || '',
+        })
+      } catch (err) {
+        console.error('Failed to load restaurant info:', err)
+        toast.error('Could not load restaurant info')
+      } finally {
+        setRestaurantFetching(false)
+      }
+    }
+    loadRestaurant()
+  }, [])
+
+  // ════════════════════════════════════════════════════════════
+  // PROFILE
+  // ════════════════════════════════════════════════════════════
   const validateProfile = () => {
     const e = {}
     if (!profileForm.name.trim())  e.name  = 'Name is required'
@@ -71,7 +113,6 @@ const SettingsPage = () => {
     return Object.keys(e).length === 0
   }
 
-  // ── Profile submit ────────────────────────────────────────────
   const handleProfileSave = async () => {
     if (!validateProfile()) return
     setProfileLoading(true)
@@ -85,7 +126,11 @@ const SettingsPage = () => {
     }
   }
 
-  // ── Password validation ───────────────────────────────────────
+
+
+  // ════════════════════════════════════════════════════════════
+  // PASSWORD
+  // ════════════════════════════════════════════════════════════
   const validatePassword = () => {
     const e = {}
     if (!passwordForm.currentPassword) e.currentPassword = 'Current password is required'
@@ -100,7 +145,6 @@ const SettingsPage = () => {
     return Object.keys(e).length === 0
   }
 
-  // ── Password submit ───────────────────────────────────────────
   const handlePasswordSave = async () => {
     if (!validatePassword()) return
     setPasswordLoading(true)
@@ -118,16 +162,38 @@ const SettingsPage = () => {
     }
   }
 
-  // ── Restaurant submit (local for now) ─────────────────────────
-  const handleRestaurantSave = () => {
-    toast.success('Restaurant info saved')
-    // Future: API call to persist restaurant settings
+  // ════════════════════════════════════════════════════════════
+  // RESTAURANT — real API call now
+  // ════════════════════════════════════════════════════════════
+  const validateRestaurant = () => {
+    const e = {}
+    if (!restaurantForm.name.trim()) e.name = 'Restaurant name is required'
+    setRestaurantErrors(e)
+    return Object.keys(e).length === 0
   }
 
+ const handleRestaurantSave = async () => {
+    if (!validateRestaurant()) return
+
+    setRestaurantLoading(true)
+    try {
+      await restaurantService.update(restaurantForm)
+      toast.success('Restaurant info saved successfully')
+      await refreshRestaurant()   // ← ADD: Topbar turant update ho
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to save restaurant info')
+    } finally {
+      setRestaurantLoading(false)
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // RENDER
+  // ════════════════════════════════════════════════════════════
   return (
     <div className="flex flex-col gap-5 font-body max-w-3xl">
 
-      {/* Header */}
+      {/* ── Header ── */}
       <div>
         <h2 className="font-heading text-2xl font-bold text-zinc-100 tracking-tight">
           Settings
@@ -137,7 +203,7 @@ const SettingsPage = () => {
         </p>
       </div>
 
-      {/* Tabs */}
+      {/* ── Tabs ── */}
       <div className="flex gap-1.5 border-b border-zinc-800 pb-0">
         {TABS.map(tab => (
           <button
@@ -146,7 +212,7 @@ const SettingsPage = () => {
             className={`
               flex items-center gap-2 px-4 py-2.5
               text-[13px] font-medium cursor-pointer
-              border-b-2 transition-all duration-150
+              border-b-2 transition-all duration-150 bg-transparent
               ${activeTab === tab.key
                 ? 'border-orange-500 text-orange-400'
                 : 'border-transparent text-zinc-500 hover:text-zinc-300'
@@ -263,7 +329,7 @@ const SettingsPage = () => {
         </div>
       )}
 
-      {/* ── RESTAURANT TAB ── */}
+      {/* ── RESTAURANT TAB — real backend connected ── */}
       {activeTab === 'restaurant' && (
         <div className="bg-[#111113] border border-zinc-800 rounded-2xl p-6 flex flex-col gap-5">
           <div>
@@ -273,39 +339,48 @@ const SettingsPage = () => {
             </p>
           </div>
 
-          <Input
-            label="Restaurant Name"
-            value={restaurantForm.name}
-            onChange={e => setRestaurantForm(f => ({ ...f, name: e.target.value }))}
-            placeholder="e.g. DineStream Restaurant"
-          />
+          {restaurantFetching ? (
+            <FormSkeleton />
+          ) : (
+            <>
+              <Input
+                label="Restaurant Name"
+                value={restaurantForm.name}
+                onChange={e => setRestaurantForm(f => ({ ...f, name: e.target.value }))}
+                error={restaurantErrors.name}
+                placeholder="e.g. DineStream Restaurant"
+              />
 
-          <Input
-            label="Address"
-            value={restaurantForm.address}
-            onChange={e => setRestaurantForm(f => ({ ...f, address: e.target.value }))}
-            placeholder="Full address"
-          />
+              <Input
+                label="Address"
+                value={restaurantForm.address}
+                onChange={e => setRestaurantForm(f => ({ ...f, address: e.target.value }))}
+                placeholder="Full address"
+              />
 
-          <Input
-            label="Phone Number"
-            value={restaurantForm.phone}
-            onChange={e => setRestaurantForm(f => ({ ...f, phone: e.target.value }))}
-            placeholder="+92 300 0000000"
-          />
+              <Input
+                label="Phone Number"
+                value={restaurantForm.phone}
+                onChange={e => setRestaurantForm(f => ({ ...f, phone: e.target.value }))}
+                placeholder="+92 300 0000000"
+              />
 
-          <button
-            onClick={handleRestaurantSave}
-            className="
-              w-fit px-5 py-2.5 mt-2
-              bg-orange-500 hover:bg-orange-600
-              text-white text-[13px] font-semibold
-              rounded-xl border-none cursor-pointer
-              transition-all duration-150 active:scale-95
-            "
-          >
-            Save Changes
-          </button>
+              <button
+                onClick={handleRestaurantSave}
+                disabled={restaurantLoading}
+                className="
+                  w-fit px-5 py-2.5 mt-2
+                  bg-orange-500 hover:bg-orange-600
+                  disabled:opacity-60 disabled:cursor-not-allowed
+                  text-white text-[13px] font-semibold
+                  rounded-xl border-none cursor-pointer
+                  transition-all duration-150 active:scale-95
+                "
+              >
+                {restaurantLoading ? 'Saving...' : 'Save Changes'}
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

@@ -12,6 +12,11 @@ const menuService = {
     return res.data
   },
 
+  createCategory: async (data) => {     // ← ADD
+    const res = await axiosInstance.post('/menu/categories', data)
+    return res.data
+  },
+
   create: async (data) => {
     const res = await axiosInstance.post('/menu', data)
     return res.data

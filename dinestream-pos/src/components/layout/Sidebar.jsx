@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom'
-
+import useRestaurant from '../../hooks/useRestaurant'
 import useAuth from '../../hooks/useAuth'
 import {
   DashboardIcon, OrdersIcon, MenuIcon, TablesIcon,
@@ -165,6 +165,7 @@ const NavItem = ({ link, collapsed, onNavigate }) => {
 const Sidebar = ({ collapsed, onToggle, mobileOpen = false, onCloseMobile }) => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const { restaurant } = useRestaurant()
 
   const handleLogout = () => {
     logout()
