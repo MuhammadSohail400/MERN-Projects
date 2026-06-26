@@ -68,4 +68,61 @@ const getMe = asyncHandler(async (req, res) => {
   res.json(new ApiResponse(200, req.user))
 })
 
-module.exports = { signup, login, getMe }
+// ── Update Profile ───────────────────────────────────────────
+const updateProfile = asyncHandler(async (req, res) => {
+  const { name, email } = req.body
+  const userId = req.user.id
+
+  if (!name || !email) {
+    throw new ApiError(400, 'Name and email are required')
+  }
+
+  // Email already kisi aur ka toh nahi
+  const existing = await prisma.user.findFirst({
+    where: { email, NOT: { id: userId } }
+  })
+  if (existing) {
+    throw new ApiError(409, 'This email is already in use')
+  }
+
+  const user = await prisma.user.update({
+    where: { id: userId },
+    data:  { name, email },
+    select: {
+      id: true, name: true, email: true, role: true,
+    }
+  })
+
+  res.json(new ApiResponse(200, user, 'Profile updated successfully'))
+})
+
+// ── Change Password ──────────────────────────────────────────
+const changePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body
+  const userId = req.user.id
+
+  if (!currentPassword || !newPassword) {
+    throw new ApiError(400, 'Current and new password are required')
+  }
+
+  if (newPassword.length < 6) {
+    throw new ApiError(400, 'New password must be at least 6 characters')
+  }
+
+  const user = await prisma.user.findUnique({ where: { id: userId } })
+
+  const isMatch = await bcrypt.compare(currentPassword, user.password)
+  if (!isMatch) {
+    throw new ApiError(401, 'Current password is incorrect')
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 12)
+
+  await prisma.user.update({
+    where: { id: userId },
+    data:  { password: hashedPassword },
+  })
+
+  res.json(new ApiResponse(200, null, 'Password changed successfully'))
+})
+module.exports = { signup, login, getMe, updateProfile, changePassword}

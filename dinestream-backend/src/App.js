@@ -10,6 +10,7 @@ const orderRoutes  = require('./routes/order.routes')
 const tableRoutes  = require('./routes/table.routes')
 const staffRoutes  = require('./routes/staff.routes')
 const reportRoutes = require('./routes/report.routes')
+const restaurantRoutes = require('./routes/restaurant.routes')
 
 const app = express()
 
@@ -28,6 +29,7 @@ app.use('/api/orders',  orderRoutes)
 app.use('/api/tables',  tableRoutes)
 app.use('/api/staff',   staffRoutes)
 app.use('/api/reports', reportRoutes)
+app.use('/api/restaurant', restaurantRoutes)
 
 // ── Health Check ──────────────────────────────────────────────
 app.get('/api/health', (req, res) => {

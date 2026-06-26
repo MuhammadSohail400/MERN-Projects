@@ -142,3 +142,15 @@ enum OrderStatus {
   PAID
   CANCELLED
 }
+
+model Restaurant {
+  id        String   @id @default(cuid())
+  name      String
+  address   String?
+  phone     String?
+  logo      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("restaurant")
+}
