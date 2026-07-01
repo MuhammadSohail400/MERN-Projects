@@ -6,10 +6,14 @@ import {
   updateEvent,
   deleteEvent,
 } from "../controllers/eventController.js";
+import { eventValidationRules, validate } from "../middlewares/eventValidator.js";
 
 const router = express.Router();
 
-router.route("/").post(createEvent).get(getEvents);
+router
+  .route("/")
+  .post(eventValidationRules, validate, createEvent)
+  .get(getEvents);
 
 router.route("/:id").get(getEventById).put(updateEvent).delete(deleteEvent);
 
