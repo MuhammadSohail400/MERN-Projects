@@ -1,4 +1,4 @@
-// Custom error class jisse hum status code ke saath error throw kar sakein
+// Custom error class for throwing errors with an HTTP status code
 class AppError extends Error {
   constructor(message, statusCode) {
     super(message);

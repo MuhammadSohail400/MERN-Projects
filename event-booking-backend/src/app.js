@@ -2,17 +2,16 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import eventRoutes from "./routes/eventRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
 import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 
-// ---- Core Middlewares ----
-app.use(cors()); // allow cross-origin requests (Next.js frontend will call this)
-app.use(express.json()); // parse incoming JSON request bodies
-app.use(express.urlencoded({ extended: true })); // parse form-urlencoded bodies
-app.use(morgan("dev")); // log each incoming request to console
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"));
 
-// ---- Test Route ----
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -20,11 +19,9 @@ app.get("/", (req, res) => {
   });
 });
 
-// ---- Routes ----
 app.use("/api/events", eventRoutes);
-// app.use("/api/bookings", bookingRoutes);
+app.use("/api/bookings", bookingRoutes);
 
-// ---- 404 Handler ---- (koi bhi route match na ho to yahan aayega)
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -32,7 +29,6 @@ app.use((req, res) => {
   });
 });
 
-// ---- Centralized Error Handler ---- (hamesha sabse aakhir mein)
 app.use(errorHandler);
 
 export default app;

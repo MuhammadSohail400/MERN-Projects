@@ -25,14 +25,40 @@ export const createEvent = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get all events
-// @route   GET /api/events
+// @desc    Get all events with pagination + filtering
+// @route   GET /api/events?page=1&limit=10&category=tech
 export const getEvents = asyncHandler(async (req, res) => {
-  const events = await Event.find().sort({ date: 1 });
+  // --- Pagination ---
+  const page = parseInt(req.query.page) || 1;    // default page 1
+  const limit = parseInt(req.query.limit) || 10; // default 10 per page
+  const skip = (page - 1) * limit;               // formula: skip = (page-1) * limit
+
+  // --- Filtering ---
+  const filter = {};
+  if (req.query.category) {
+    filter.category = req.query.category;
+  }
+  if (req.query.location) {
+    filter.location = { $regex: req.query.location, $options: "i" }; // case-insensitive
+  }
+
+  // --- DB Query ---
+  const totalEvents = await Event.countDocuments(filter);
+  const events = await Event.find(filter)
+    .sort({ date: 1 })
+    .skip(skip)
+    .limit(limit);
 
   res.status(200).json({
     success: true,
     count: events.length,
+    pagination: {
+      currentPage: page,
+      totalPages: Math.ceil(totalEvents / limit),
+      totalEvents,
+      hasNextPage: page < Math.ceil(totalEvents / limit),
+      hasPrevPage: page > 1,
+    },
     data: events,
   });
 });

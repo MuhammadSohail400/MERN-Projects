@@ -1,16 +1,15 @@
-// 4 parameters (err, req, res, next) — yehi signature Express ko batata hai
-// ke yeh ek error-handling middleware hai
+// Express error handler must accept four arguments (err, req, res, next)
 const errorHandler = (err, req, res, next) => {
   let statusCode = err.statusCode || 500;
   let message = err.message || "Internal Server Error";
 
-  // Mongoose "CastError" — galat format ka ObjectId (e.g. /api/events/123)
+  // Handle invalid ObjectId errors from Mongoose
   if (err.name === "CastError") {
     statusCode = 400;
     message = `Invalid ${err.path}: ${err.value}`;
   }
 
-  // Mongoose validation error (schema rules tootne par)
+  // Handle Mongoose validation errors
   if (err.name === "ValidationError") {
     statusCode = 400;
     message = Object.values(err.errors)
@@ -18,7 +17,7 @@ const errorHandler = (err, req, res, next) => {
       .join(", ");
   }
 
-  // Mongoose duplicate key error (e.g. unique field repeat ho gaya)
+  // Handle duplicate key errors from Mongoose
   if (err.code === 11000) {
     statusCode = 400;
     const field = Object.keys(err.keyValue)[0];

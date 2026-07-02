@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
 
-// Validation rules array — har field ke liye conditions
+// Validation rules for event fields
 export const eventValidationRules = [
   body("title")
     .trim()
@@ -37,8 +37,6 @@ export const eventValidationRules = [
     .withMessage("Price cannot be negative"),
 ];
 
-// Yeh middleware rules check karne ke baad result collect karta hai
-// aur agar koi error mila to request ko aage jaane se rok deta hai
 export const validate = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -50,5 +48,5 @@ export const validate = (req, res, next) => {
     });
   }
 
-  next(); // koi error nahi, to request controller tak aage jaye
+  next();
 };
